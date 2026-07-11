@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import pickle
- 
+
 # -----------------------------
 # PAGE CONFIG
 # -----------------------------
@@ -10,9 +10,9 @@ st.set_page_config(
     page_icon="❤️",
     layout="centered"
 )
- 
+
 BACKGROUND_URL = "https://i.pinimg.com/1200x/30/da/56/30da565b9ba54887ef1f73ea110c068e.jpg"
- 
+
 # -----------------------------
 # CUSTOM STYLING
 # -----------------------------
@@ -20,11 +20,11 @@ st.markdown(
     f"""
     <style>
     @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Poppins:wght@300;400;500;600;700&display=swap');
- 
+
     html, body, [class*="css"] {{
         font-family: 'Poppins', sans-serif;
     }}
- 
+
     /* ---------- BACKGROUND ---------- */
     .stApp {{
         background:
@@ -35,17 +35,17 @@ st.markdown(
         background-attachment: fixed;
         background-repeat: no-repeat;
     }}
- 
+
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     header {{background: transparent !important;}}
- 
+
     .block-container {{
         max-width: 920px;
         padding-top: 1.5rem;
         padding-bottom: 3rem;
     }}
- 
+
     /* ---------- TITLE ---------- */
     .app-title {{
         font-family: 'Space Grotesk', sans-serif;
@@ -67,7 +67,7 @@ st.markdown(
         margin-bottom: 1.7rem;
         opacity: 0.9;
     }}
- 
+
     /* ---------- EQUAL-HEIGHT, GLOWING GLASS PANELS ---------- */
     div[data-testid="stHorizontalBlock"] {{
         align-items: stretch !important;
@@ -79,7 +79,7 @@ st.markdown(
     div[data-testid="column"] > div {{
         height: 100% !important;
     }}
- 
+
     div[data-testid="stVerticalBlockBorderWrapper"] {{
         background: linear-gradient(135deg, rgba(79,172,254,0.26), rgba(185,103,255,0.22)) !important;
         backdrop-filter: blur(20px) saturate(150%) !important;
@@ -99,13 +99,13 @@ st.markdown(
         display: flex;
         flex-direction: column;
     }}
- 
+
     /* scatter the right (2nd) column's content evenly across the full panel height */
     div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-of-type(2)
         div[data-testid="stVerticalBlockBorderWrapper"] > div {{
         justify-content: space-evenly !important;
     }}
- 
+
     .section-heading {{
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 600;
@@ -116,7 +116,7 @@ st.markdown(
         text-align: center;
     }}
     .section-heading.blue {{ color: #9fd3ff; }}
- 
+
     /* ---------- NUMBER INPUTS ---------- */
     div[data-testid="stNumberInput"] label p {{
         color: #f8f5ff !important;
@@ -129,7 +129,7 @@ st.markdown(
         border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 10px !important;
     }}
- 
+
     /* ---------- RADIO SELECTIONS: fully centered block ---------- */
     div.element-container:has(div[data-testid="stRadio"]) {{
         display: flex !important;
@@ -165,7 +165,7 @@ st.markdown(
         margin: 0 auto !important;
         gap: 1.2rem !important;
     }}
- 
+
     /* ---------- PREDICT BUTTON (glowing, gradient, animated) ---------- */
     @keyframes pulseGlow {{
         0%   {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
@@ -173,8 +173,9 @@ st.markdown(
         100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
     }}
     div[data-testid="stButton"] {{
+        display: grid !important;
+        place-items: center !important;
         width: 100% !important;
-        text-align: center !important;
     }}
     div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%) !important;
@@ -187,9 +188,7 @@ st.markdown(
         padding: 0.85rem 0 !important;
         display: block !important;
         margin: 0 auto !important;
-        width: 62% !important;
-        min-width: 300px !important;
-        max-width: 480px !important;
+        width: min(90%, 480px) !important;
         text-align: center !important;
         white-space: nowrap !important;
         animation: pulseGlow 2.4s ease-in-out infinite !important;
@@ -209,7 +208,7 @@ st.markdown(
     div[data-testid="stButton"] button:active {{
         transform: translateY(-1px) scale(0.99) !important;
     }}
- 
+
     /* ---------- RESULT CARD ---------- */
     .result-card {{
         text-align: center;
@@ -243,7 +242,7 @@ st.markdown(
         opacity: 0.95;
         margin-bottom: 1.3rem;
     }}
- 
+
     /* ---------- CONFIDENCE BARS ---------- */
     .conf-label {{
         display: flex;
@@ -273,7 +272,7 @@ st.markdown(
         background: linear-gradient(90deg, #ff5f7e, #ff9f6b);
         box-shadow: 0 0 12px rgba(255,95,126,0.6);
     }}
- 
+
     .disclaimer {{
         text-align: center;
         color: #f0eaff;
@@ -281,7 +280,7 @@ st.markdown(
         font-size: 0.82rem;
         margin-top: 1.5rem;
     }}
- 
+
     /* ---------- MOBILE ---------- */
     @media (max-width: 600px) {{
         .app-title {{ font-size: 1.6rem; }}
@@ -301,7 +300,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
- 
+
 # -----------------------------
 # LOAD MODEL
 # -----------------------------
@@ -309,7 +308,7 @@ st.markdown(
 def load_model():
     with open("heart_model.pkl", "rb") as file:
         data = pickle.load(file)
- 
+
     if isinstance(data, dict) and "model" in data:
         model = data["model"]
         columns = data["columns"]
@@ -321,9 +320,9 @@ def load_model():
             "serum_creatinine", "serum_sodium", "sex", "smoking", "time"
         ]
     return model, columns
- 
+
 model, columns = load_model()
- 
+
 # -----------------------------
 # HEADER
 # -----------------------------
@@ -332,12 +331,12 @@ st.markdown(
     '<div class="app-subtitle">Enter the patient\'s clinical details to estimate survival likelihood</div>',
     unsafe_allow_html=True
 )
- 
+
 # -----------------------------
 # USER INPUTS
 # -----------------------------
 col1, col2 = st.columns(2, gap="medium")
- 
+
 with col1:
     with st.container(border=True):
         st.markdown('<div class="section-heading">🩺 Clinical Measurements</div>', unsafe_allow_html=True)
@@ -360,7 +359,7 @@ with col1:
         time = st.number_input(
             "Follow-up Period (days)", min_value=0, value=100
         )
- 
+
 with col2:
     with st.container(border=True):
         st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
@@ -369,17 +368,17 @@ with col2:
         high_blood_pressure = st.radio("💢 High Blood Pressure", ["No", "Yes"], horizontal=True)
         smoking = st.radio("🚬 Smoking", ["No", "Yes"], horizontal=True)
         sex = st.radio("⚧ Sex", ["Female", "Male"], horizontal=True)
- 
+
 st.write("")
- 
+
 # Reliable centering: 3-column trick, button lives in the middle one
 predict_clicked = st.button("✨ Predict Survival", type="primary")
- 
+
 # -----------------------------
 # PREDICTION
 # -----------------------------
 if predict_clicked:
- 
+
     input_dict = {
         "age": age,
         "anaemia": 1 if anaemia == "Yes" else 0,
@@ -394,14 +393,14 @@ if predict_clicked:
         "smoking": 1 if smoking == "Yes" else 0,
         "time": time,
     }
- 
+
     input_df = pd.DataFrame([input_dict])[columns]
- 
+
     prediction = model.predict(input_df)[0]
     probability = model.predict_proba(input_df)[0]
     survive_pct = probability[0] * 100
     death_pct = probability[1] * 100
- 
+
     card_class = "risk" if prediction == 1 else "survive"
     title = "⚠️ High Risk Predicted" if prediction == 1 else "✅ Likely to Survive"
     subtitle = (
@@ -409,7 +408,7 @@ if predict_clicked:
         if prediction == 1 else
         "The model predicts a lower likelihood of a death event"
     )
- 
+
     st.markdown(
         f"""
         <div class="result-card {card_class}">
@@ -423,10 +422,10 @@ if predict_clicked:
         """,
         unsafe_allow_html=True
     )
- 
+
     with st.expander("See input data used for prediction"):
         st.dataframe(input_df)
- 
+
 st.markdown(
     '<div class="disclaimer">⚠️ This tool is for educational purposes only and is not a substitute for professional medical advice.</div>',
     unsafe_allow_html=True
