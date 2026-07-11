@@ -8,7 +8,7 @@ import pickle
 st.set_page_config(
     page_title="Heart Failure Survival Predictor",
     page_icon="❤️",
-    layout="wide"
+    layout="centered"   # narrower, content stays centered on wide screens
 )
  
 BACKGROUND_URL = "https://i.pinimg.com/1200x/30/da/56/30da565b9ba54887ef1f73ea110c068e.jpg"
@@ -28,7 +28,7 @@ st.markdown(
     /* ---------- BACKGROUND ---------- */
     .stApp {{
         background:
-            linear-gradient(160deg, rgba(15,4,40,0.82) 0%, rgba(40,6,60,0.72) 35%, rgba(90,10,40,0.75) 100%),
+            linear-gradient(160deg, rgba(15,4,40,0.85) 0%, rgba(40,6,60,0.75) 35%, rgba(90,10,40,0.78) 100%),
             url('{BACKGROUND_URL}');
         background-size: cover;
         background-position: center;
@@ -36,62 +36,68 @@ st.markdown(
         background-repeat: no-repeat;
     }}
  
-    /* Hide default streamlit chrome */
     #MainMenu {{visibility: hidden;}}
     footer {{visibility: hidden;}}
     header {{background: transparent !important;}}
  
+    /* keep content narrow + centered */
+    .block-container {{
+        max-width: 760px;
+        padding-top: 1.5rem;
+        padding-bottom: 3rem;
+    }}
+ 
     /* ---------- TITLE ---------- */
     .app-title {{
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 2.6rem;
+        font-size: 2.3rem;
         font-weight: 700;
         text-align: center;
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0;
-        padding-top: 0.5rem;
+        padding-top: 0.3rem;
+        text-shadow: 0 0 25px rgba(185,103,255,0.35);
     }}
     .app-subtitle {{
         text-align: center;
         color: #e8e2ff;
-        font-size: 1.02rem;
+        font-size: 0.98rem;
         font-weight: 300;
         margin-top: 0.3rem;
-        margin-bottom: 1.8rem;
+        margin-bottom: 1.6rem;
         opacity: 0.9;
     }}
  
-    /* ---------- GLASS CARD ---------- */
-    .glass-card {{
-        background: rgba(255, 255, 255, 0.08);
+    /* ---------- GLASS CARD (native Streamlit bordered container) ---------- */
+    div[data-testid="stVerticalBlockBorderWrapper"] {{
+        background: rgba(255, 255, 255, 0.07);
         backdrop-filter: blur(18px);
         -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        border-radius: 20px;
-        padding: 1.6rem 1.8rem;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        border-radius: 20px !important;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        margin-bottom: 1.2rem;
+        padding: 0.4rem 0.2rem;
     }}
  
     .section-heading {{
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 600;
-        font-size: 1.15rem;
+        font-size: 1.1rem;
         color: #ffb3c6;
-        margin-bottom: 0.8rem;
+        margin-bottom: 0.9rem;
         letter-spacing: 0.3px;
+        text-align: center;
     }}
     .section-heading.blue {{ color: #9fd3ff; }}
  
-    /* ---------- INPUT WIDGETS ---------- */
-    div[data-testid="stNumberInput"] label,
-    div[data-testid="stRadio"] label {{
+    /* ---------- NUMBER INPUTS ---------- */
+    div[data-testid="stNumberInput"] label {{
         color: #f2eefc !important;
         font-weight: 500 !important;
+        font-size: 0.9rem !important;
     }}
- 
     div[data-testid="stNumberInput"] input {{
         background: rgba(255,255,255,0.12) !important;
         color: #ffffff !important;
@@ -99,10 +105,39 @@ st.markdown(
         border-radius: 10px !important;
     }}
  
+    /* ---------- TOGGLE SWITCHES (health background) ---------- */
+    div[data-testid="stToggle"] label p {{
+        color: #f2eefc !important;
+        font-weight: 500 !important;
+        font-size: 0.95rem !important;
+    }}
+    div[data-testid="stToggle"] {{
+        background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 12px;
+        padding: 0.55rem 0.9rem;
+        margin-bottom: 0.55rem;
+        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    }}
+    div[data-testid="stToggle"]:has(input:checked) {{
+        border-color: rgba(255,95,126,0.55);
+        box-shadow: 0 0 16px rgba(255,95,126,0.35);
+    }}
+    div[data-testid="stToggle"] button[aria-checked="true"] {{
+        background: linear-gradient(90deg, #ff5f7e, #b967ff) !important;
+    }}
+ 
+    /* ---------- SEX SEGMENTED CONTROL ---------- */
+    div[data-testid="stRadio"] label p {{
+        color: #f2eefc !important;
+        font-weight: 500 !important;
+    }}
     div[data-testid="stRadio"] > div {{
         background: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.14);
         border-radius: 12px;
-        padding: 6px 10px;
+        padding: 8px 10px;
+        justify-content: center;
     }}
  
     /* ---------- PREDICT BUTTON ---------- */
@@ -110,16 +145,16 @@ st.markdown(
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
         color: white;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 1.02rem;
         border: none;
         border-radius: 14px;
         padding: 0.7rem 0;
-        box-shadow: 0 6px 20px rgba(185, 103, 255, 0.4);
+        box-shadow: 0 0 22px rgba(185, 103, 255, 0.45);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }}
     div[data-testid="stButton"] button:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 10px 26px rgba(185, 103, 255, 0.55);
+        box-shadow: 0 0 32px rgba(185, 103, 255, 0.65);
         color: white;
     }}
  
@@ -127,7 +162,7 @@ st.markdown(
     .result-card {{
         text-align: center;
         border-radius: 22px;
-        padding: 2rem 1.5rem;
+        padding: 1.8rem 1.4rem;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
         border: 1px solid rgba(255,255,255,0.22);
@@ -136,21 +171,22 @@ st.markdown(
     }}
     .result-card.survive {{
         background: linear-gradient(135deg, rgba(79,172,254,0.28), rgba(185,103,255,0.22));
-        box-shadow: 0 8px 30px rgba(79,172,254,0.35);
+        box-shadow: 0 0 40px rgba(79,172,254,0.4);
     }}
     .result-card.risk {{
         background: linear-gradient(135deg, rgba(255,95,126,0.32), rgba(185,103,255,0.20));
-        box-shadow: 0 8px 30px rgba(255,95,126,0.35);
+        box-shadow: 0 0 40px rgba(255,95,126,0.4);
     }}
     .result-title {{
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 1.8rem;
+        font-size: 1.7rem;
         font-weight: 700;
         color: #ffffff;
         margin-bottom: 0.3rem;
+        text-shadow: 0 0 18px rgba(255,255,255,0.3);
     }}
     .result-sub {{
-        font-size: 1rem;
+        font-size: 0.95rem;
         color: #f0eaff;
         opacity: 0.9;
         margin-bottom: 1.3rem;
@@ -161,7 +197,7 @@ st.markdown(
         display: flex;
         justify-content: space-between;
         font-weight: 600;
-        font-size: 0.95rem;
+        font-size: 0.92rem;
         color: #ffffff;
         margin-bottom: 4px;
     }}
@@ -177,19 +213,30 @@ st.markdown(
         height: 100%;
         border-radius: 8px;
         background: linear-gradient(90deg, #4facfe, #b967ff);
+        box-shadow: 0 0 12px rgba(79,172,254,0.6);
     }}
     .conf-fill-risk {{
         height: 100%;
         border-radius: 8px;
         background: linear-gradient(90deg, #ff5f7e, #ff9f6b);
+        box-shadow: 0 0 12px rgba(255,95,126,0.6);
     }}
  
     .disclaimer {{
         text-align: center;
         color: #e5dfff;
         opacity: 0.75;
-        font-size: 0.85rem;
+        font-size: 0.82rem;
         margin-top: 1.5rem;
+    }}
+ 
+    /* ---------- MOBILE ---------- */
+    @media (max-width: 600px) {{
+        .app-title {{ font-size: 1.7rem; }}
+        .app-subtitle {{ font-size: 0.85rem; }}
+        .result-title {{ font-size: 1.4rem; }}
+        .block-container {{ padding-left: 0.8rem; padding-right: 0.8rem; }}
+        div[data-testid="stVerticalBlockBorderWrapper"] {{ padding: 0.2rem 0.1rem; }}
     }}
     </style>
     """,
@@ -230,41 +277,46 @@ st.markdown(
 # -----------------------------
 # USER INPUTS
 # -----------------------------
-col1, col2 = st.columns(2, gap="large")
+col1, col2 = st.columns(2, gap="medium")
  
 with col1:
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-heading">🩺 Clinical Measurements</div>', unsafe_allow_html=True)
-    age = st.number_input("Age", min_value=1, max_value=120, value=60)
-    creatinine_phosphokinase = st.number_input(
-        "Creatinine Phosphokinase (mcg/L)", min_value=0, value=250
-    )
-    ejection_fraction = st.number_input(
-        "Ejection Fraction (%)", min_value=0, max_value=100, value=38
-    )
-    platelets = st.number_input(
-        "Platelets (kiloplatelets/mL)", min_value=0.0, value=250000.0, step=1000.0
-    )
-    serum_creatinine = st.number_input(
-        "Serum Creatinine (mg/dL)", min_value=0.0, value=1.1, step=0.1
-    )
-    serum_sodium = st.number_input(
-        "Serum Sodium (mEq/L)", min_value=0, value=137
-    )
-    time = st.number_input(
-        "Follow-up Period (days)", min_value=0, value=100
-    )
-    st.markdown('</div>', unsafe_allow_html=True)
+    card1 = st.container(border=True)
+    with card1:
+        st.markdown('<div class="section-heading">🩺 Clinical Measurements</div>', unsafe_allow_html=True)
+        age = st.number_input("Age", min_value=1, max_value=120, value=60)
+        creatinine_phosphokinase = st.number_input(
+            "Creatinine Phosphokinase (mcg/L)", min_value=0, value=250
+        )
+        ejection_fraction = st.number_input(
+            "Ejection Fraction (%)", min_value=0, max_value=100, value=38
+        )
+        platelets = st.number_input(
+            "Platelets (kiloplatelets/mL)", min_value=0.0, value=250000.0, step=1000.0
+        )
+        serum_creatinine = st.number_input(
+            "Serum Creatinine (mg/dL)", min_value=0.0, value=1.1, step=0.1
+        )
+        serum_sodium = st.number_input(
+            "Serum Sodium (mEq/L)", min_value=0, value=137
+        )
+        time = st.number_input(
+            "Follow-up Period (days)", min_value=0, value=100
+        )
  
 with col2:
-    st.markdown('<div class="glass-card">', unsafe_allow_html=True)
-    st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
-    anaemia = st.radio("Anaemia", ["No", "Yes"], horizontal=True)
-    diabetes = st.radio("Diabetes", ["No", "Yes"], horizontal=True)
-    high_blood_pressure = st.radio("High Blood Pressure", ["No", "Yes"], horizontal=True)
-    sex = st.radio("Sex", ["Female", "Male"], horizontal=True)
-    smoking = st.radio("Smoking", ["No", "Yes"], horizontal=True)
-    st.markdown('</div>', unsafe_allow_html=True)
+    card2 = st.container(border=True)
+    with card2:
+        st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
+        anaemia_on = st.toggle("🩸 Anaemia", value=False)
+        diabetes_on = st.toggle("🍬 Diabetes", value=False)
+        hbp_on = st.toggle("💢 High Blood Pressure", value=False)
+        smoking_on = st.toggle("🚬 Smoking", value=False)
+        sex = st.radio("⚧ Sex", ["Female", "Male"], horizontal=True)
+ 
+        anaemia = "Yes" if anaemia_on else "No"
+        diabetes = "Yes" if diabetes_on else "No"
+        high_blood_pressure = "Yes" if hbp_on else "No"
+        smoking = "Yes" if smoking_on else "No"
  
 st.write("")
 predict_clicked = st.button("✨ Predict Survival", type="primary", use_container_width=True)
@@ -296,34 +348,27 @@ if predict_clicked:
     survive_pct = probability[0] * 100
     death_pct = probability[1] * 100
  
-    if prediction == 1:
-        st.markdown(
-            f"""
-            <div class="result-card risk">
-                <div class="result-title">⚠️ High Risk Predicted</div>
-                <div class="result-sub">The model predicts a higher likelihood of a death event</div>
-                <div class="conf-label"><span>💙 Survival Confidence</span><span>{survive_pct:.1f}%</span></div>
-                <div class="conf-track"><div class="conf-fill-survive" style="width:{survive_pct}%;"></div></div>
-                <div class="conf-label"><span>❤️ Risk Confidence</span><span>{death_pct:.1f}%</span></div>
-                <div class="conf-track"><div class="conf-fill-risk" style="width:{death_pct}%;"></div></div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
-    else:
-        st.markdown(
-            f"""
-            <div class="result-card survive">
-                <div class="result-title">✅ Likely to Survive</div>
-                <div class="result-sub">The model predicts a lower likelihood of a death event</div>
-                <div class="conf-label"><span>💙 Survival Confidence</span><span>{survive_pct:.1f}%</span></div>
-                <div class="conf-track"><div class="conf-fill-survive" style="width:{survive_pct}%;"></div></div>
-                <div class="conf-label"><span>❤️ Risk Confidence</span><span>{death_pct:.1f}%</span></div>
-                <div class="conf-track"><div class="conf-fill-risk" style="width:{death_pct}%;"></div></div>
-            </div>
-            """,
-            unsafe_allow_html=True
-        )
+    card_class = "risk" if prediction == 1 else "survive"
+    title = "⚠️ High Risk Predicted" if prediction == 1 else "✅ Likely to Survive"
+    subtitle = (
+        "The model predicts a higher likelihood of a death event"
+        if prediction == 1 else
+        "The model predicts a lower likelihood of a death event"
+    )
+ 
+    st.markdown(
+        f"""
+        <div class="result-card {card_class}">
+            <div class="result-title">{title}</div>
+            <div class="result-sub">{subtitle}</div>
+            <div class="conf-label"><span>💙 Survival Confidence</span><span>{survive_pct:.1f}%</span></div>
+            <div class="conf-track"><div class="conf-fill-survive" style="width:{survive_pct}%;"></div></div>
+            <div class="conf-label"><span>❤️ Risk Confidence</span><span>{death_pct:.1f}%</span></div>
+            <div class="conf-track"><div class="conf-fill-risk" style="width:{death_pct}%;"></div></div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
  
     with st.expander("See input data used for prediction"):
         st.dataframe(input_df)
@@ -332,4 +377,3 @@ st.markdown(
     '<div class="disclaimer">⚠️ This tool is for educational purposes only and is not a substitute for professional medical advice.</div>',
     unsafe_allow_html=True
 )
- 
