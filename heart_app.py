@@ -68,15 +68,39 @@ st.markdown(
         opacity: 0.9;
     }}
  
-    /* ---------- GLASS CARD ---------- */
+    /* ---------- EQUAL-HEIGHT COLUMNS ---------- */
+    div[data-testid="stHorizontalBlock"] {{
+        align-items: stretch !important;
+    }}
+    div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {{
+        display: flex !important;
+        flex-direction: column !important;
+    }}
+    div[data-testid="column"] > div {{
+        height: 100% !important;
+    }}
+    div[data-testid="column"] div[data-testid="stVerticalBlock"] {{
+        height: 100% !important;
+    }}
+ 
+    /* ---------- GLASS CARD (visibly translucent) ---------- */
     div[data-testid="stVerticalBlockBorderWrapper"] {{
-        background: rgba(255, 255, 255, 0.07);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+        background: rgba(255, 255, 255, 0.16) !important;
+        backdrop-filter: blur(20px) saturate(140%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.30) !important;
         border-radius: 20px !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        padding: 1.3rem 1.3rem 0.6rem 1.3rem;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+        padding: 1.3rem 1.3rem 1rem 1.3rem;
+        height: 100% !important;
+        display: flex !important;
+        flex-direction: column !important;
+    }}
+    div[data-testid="stVerticalBlockBorderWrapper"] > div {{
+        background: transparent !important;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
     }}
  
     .section-heading {{
@@ -92,52 +116,57 @@ st.markdown(
  
     /* ---------- NUMBER INPUTS ---------- */
     div[data-testid="stNumberInput"] label p {{
-        color: #f2eefc !important;
+        color: #f8f5ff !important;
         font-weight: 500 !important;
         font-size: 0.88rem !important;
     }}
     div[data-testid="stNumberInput"] input {{
-        background: rgba(255,255,255,0.12) !important;
+        background: rgba(255,255,255,0.18) !important;
         color: #ffffff !important;
-        border: 1px solid rgba(255,255,255,0.25) !important;
+        border: 1px solid rgba(255,255,255,0.3) !important;
         border-radius: 10px !important;
     }}
  
-    /* ---------- PILLS (health background + sex) ---------- */
-    div[data-testid="stPills"] label p {{
-        color: #f2eefc !important;
+    /* ---------- TOGGLE ROWS (health background) ---------- */
+    div[data-testid="stToggle"] label p {{
+        color: #f8f5ff !important;
         font-weight: 500 !important;
-        font-size: 0.85rem !important;
-        margin-bottom: 0.5rem !important;
+        font-size: 0.95rem !important;
     }}
-    div[data-testid="stPills"] button {{
-        background: rgba(255,255,255,0.08) !important;
-        border: 1px solid rgba(255,255,255,0.22) !important;
-        color: #f2eefc !important;
-        border-radius: 999px !important;
-        font-weight: 500 !important;
-        transition: all 0.2s ease !important;
-    }}
-    div[data-testid="stPills"] button:hover {{
-        border-color: rgba(185,103,255,0.6) !important;
-        box-shadow: 0 0 14px rgba(185,103,255,0.35) !important;
-    }}
-    div[data-testid="stPills"] button[kind="primary"] {{
-        background: linear-gradient(90deg, #ff5f7e, #b967ff) !important;
-        border: none !important;
-        color: white !important;
-        box-shadow: 0 0 16px rgba(255,95,126,0.5) !important;
+    div[data-testid="stToggle"] {{
+        background: rgba(255,255,255,0.10);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 0.6rem 0.9rem;
+        margin-bottom: 0.6rem;
     }}
  
-    /* ---------- PREDICT BUTTON ---------- */
+    /* ---------- SEX SEGMENTED CONTROL ---------- */
+    div[data-testid="stRadio"] label p {{
+        color: #f8f5ff !important;
+        font-weight: 500 !important;
+    }}
+    div[data-testid="stRadio"] > div {{
+        background: rgba(255,255,255,0.10);
+        border: 1px solid rgba(255,255,255,0.2);
+        border-radius: 12px;
+        padding: 8px 10px;
+        justify-content: center;
+    }}
+ 
+    /* ---------- PREDICT BUTTON (normal width, centered) ---------- */
+    div[data-testid="stButton"] {{
+        display: flex;
+        justify-content: center;
+    }}
     div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
         color: white;
         font-weight: 700;
-        font-size: 1.02rem;
+        font-size: 1rem;
         border: none;
         border-radius: 14px;
-        padding: 0.7rem 0;
+        padding: 0.6rem 2.4rem;
         box-shadow: 0 0 22px rgba(185, 103, 255, 0.45);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }}
@@ -154,16 +183,16 @@ st.markdown(
         padding: 1.8rem 1.4rem;
         backdrop-filter: blur(20px);
         -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(255,255,255,0.22);
-        margin-top: 1rem;
+        border: 1px solid rgba(255,255,255,0.25);
+        margin-top: 1.2rem;
         margin-bottom: 1rem;
     }}
     .result-card.survive {{
-        background: linear-gradient(135deg, rgba(79,172,254,0.28), rgba(185,103,255,0.22));
+        background: linear-gradient(135deg, rgba(79,172,254,0.32), rgba(185,103,255,0.26));
         box-shadow: 0 0 40px rgba(79,172,254,0.4);
     }}
     .result-card.risk {{
-        background: linear-gradient(135deg, rgba(255,95,126,0.32), rgba(185,103,255,0.20));
+        background: linear-gradient(135deg, rgba(255,95,126,0.36), rgba(185,103,255,0.24));
         box-shadow: 0 0 40px rgba(255,95,126,0.4);
     }}
     .result-title {{
@@ -176,8 +205,8 @@ st.markdown(
     }}
     .result-sub {{
         font-size: 0.95rem;
-        color: #f0eaff;
-        opacity: 0.9;
+        color: #f8f5ff;
+        opacity: 0.95;
         margin-bottom: 1.3rem;
     }}
  
@@ -193,7 +222,7 @@ st.markdown(
     .conf-track {{
         width: 100%;
         height: 14px;
-        background: rgba(255,255,255,0.15);
+        background: rgba(255,255,255,0.18);
         border-radius: 8px;
         overflow: hidden;
         margin-bottom: 1rem;
@@ -213,8 +242,8 @@ st.markdown(
  
     .disclaimer {{
         text-align: center;
-        color: #e5dfff;
-        opacity: 0.75;
+        color: #f0eaff;
+        opacity: 0.8;
         font-size: 0.82rem;
         margin-top: 1.5rem;
     }}
@@ -225,7 +254,13 @@ st.markdown(
         .app-subtitle {{ font-size: 0.82rem; }}
         .result-title {{ font-size: 1.35rem; }}
         .block-container {{ padding-left: 0.8rem; padding-right: 0.8rem; }}
-        div[data-testid="stVerticalBlockBorderWrapper"] {{ padding: 1rem 0.9rem 0.5rem 0.9rem; }}
+        div[data-testid="stHorizontalBlock"] > div[data-testid="column"] {{
+            display: block !important;
+        }}
+        div[data-testid="stVerticalBlockBorderWrapper"] {{
+            height: auto !important;
+            margin-bottom: 1rem;
+        }}
     }}
     </style>
     """,
@@ -294,31 +329,19 @@ with col1:
 with col2:
     with st.container(border=True):
         st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
+        anaemia = st.toggle("🩸 Anaemia", value=False)
+        diabetes = st.toggle("🍬 Diabetes", value=False)
+        high_blood_pressure = st.toggle("💢 High Blood Pressure", value=False)
+        smoking = st.toggle("🚬 Smoking", value=False)
+        sex = st.radio("⚧ Sex", ["Female", "Male"], horizontal=True)
  
-        conditions = st.pills(
-            "Existing conditions (tap to select)",
-            ["🩸 Anaemia", "🍬 Diabetes", "💢 High BP", "🚬 Smoking"],
-            selection_mode="multi",
-        )
-        conditions = conditions or []
- 
-        st.markdown("<div style='margin-top: 0.6rem;'></div>", unsafe_allow_html=True)
- 
-        sex_choice = st.pills(
-            "Sex",
-            ["♀ Female", "♂ Male"],
-            selection_mode="single",
-            default="♀ Female",
-        )
- 
-        anaemia = "Yes" if "🩸 Anaemia" in conditions else "No"
-        diabetes = "Yes" if "🍬 Diabetes" in conditions else "No"
-        high_blood_pressure = "Yes" if "💢 High BP" in conditions else "No"
-        smoking = "Yes" if "🚬 Smoking" in conditions else "No"
-        sex = "Male" if sex_choice == "♂ Male" else "Female"
+        anaemia = "Yes" if anaemia else "No"
+        diabetes = "Yes" if diabetes else "No"
+        high_blood_pressure = "Yes" if high_blood_pressure else "No"
+        smoking = "Yes" if smoking else "No"
  
 st.write("")
-predict_clicked = st.button("✨ Predict Survival", type="primary", use_container_width=True)
+predict_clicked = st.button("✨ Predict Survival", type="primary")
  
 # -----------------------------
 # PREDICTION
