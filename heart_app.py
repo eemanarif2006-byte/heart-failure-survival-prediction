@@ -172,11 +172,7 @@ st.markdown(
         50%  {{ box-shadow: 0 0 32px rgba(79,172,254,0.6), 0 0 55px rgba(185,103,255,0.6) !important; }}
         100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
     }}
-    div[data-testid="stButton"] {{
-        display: grid !important;
-        place-items: center !important;
-        width: 100% !important;
-    }}
+    
     div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%) !important;
         background-size: 200% 100% !important;
@@ -186,9 +182,7 @@ st.markdown(
         border: none !important;
         border-radius: 14px !important;
         padding: 0.85rem 0 !important;
-        display: block !important;
-        margin: 0 auto !important;
-        width: min(90%, 480px) !important;
+        width: 100% !important;
         text-align: center !important;
         white-space: nowrap !important;
         animation: pulseGlow 2.4s ease-in-out infinite !important;
@@ -372,7 +366,14 @@ with col2:
 st.write("")
 
 # Reliable centering: 3-column trick, button lives in the middle one
-predict_clicked = st.button("✨ Predict Survival", type="primary")
+left, center, right = st.columns([1, 2, 1])
+
+with center:
+    predict_clicked = st.button(
+        "✨ Predict Survival",
+        type="primary",
+        use_container_width=True
+    )
 
 # -----------------------------
 # PREDICTION
