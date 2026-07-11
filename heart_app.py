@@ -41,7 +41,7 @@ st.markdown(
     header {{background: transparent !important;}}
  
     .block-container {{
-        max-width: 740px;
+        max-width: 920px;
         padding-top: 1.5rem;
         padding-bottom: 3rem;
     }}
@@ -131,39 +131,62 @@ st.markdown(
     }}
  
     /* ---------- RADIO SELECTIONS (used for everything now — you said these are peak) ---------- */
+    div[data-testid="stRadio"] {{
+        margin-bottom: 0.9rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100%;
+    }}
+    div[data-testid="stRadio"] > label {{
+        width: 100%;
+        text-align: center;
+    }}
     div[data-testid="stRadio"] label p {{
         color: #f8f5ff !important;
         font-weight: 600 !important;
         font-size: 0.98rem !important;
+        text-align: center !important;
+        width: 100%;
     }}
     div[data-testid="stRadio"] > div {{
         background: rgba(255,255,255,0.12);
         border: 1px solid rgba(255,255,255,0.25);
         border-radius: 12px;
-        padding: 8px 10px;
+        padding: 8px 14px;
         justify-content: center;
-    }}
-    div[data-testid="stRadio"] {{
-        margin-bottom: 0.9rem;
+        width: fit-content;
+        margin: 0 auto;
     }}
  
-    /* ---------- PREDICT BUTTON (reliably centered, normal size) ---------- */
+    /* ---------- PREDICT BUTTON (reliably centered, normal size, glowing) ---------- */
+    @keyframes pulseGlow {{
+        0%   {{ box-shadow: 0 0 18px rgba(255,95,126,0.45), 0 0 34px rgba(185,103,255,0.4); }}
+        50%  {{ box-shadow: 0 0 30px rgba(79,172,254,0.55), 0 0 50px rgba(185,103,255,0.55); }}
+        100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.45), 0 0 34px rgba(185,103,255,0.4); }}
+    }}
     .predict-btn-row div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
+        background-size: 200% 100%;
         color: white;
         font-weight: 700;
-        font-size: 1.05rem;
+        font-size: 1.08rem;
         border: none;
         border-radius: 14px;
-        padding: 0.75rem 0;
+        padding: 0.8rem 0;
         width: 100%;
-        box-shadow: 0 0 24px rgba(185, 103, 255, 0.5);
-        transition: transform 0.15s ease, box-shadow 0.15s ease;
+        animation: pulseGlow 2.4s ease-in-out infinite;
+        transition: transform 0.2s ease, background-position 0.4s ease;
     }}
     .predict-btn-row div[data-testid="stButton"] button:hover {{
-        transform: translateY(-2px);
-        box-shadow: 0 0 34px rgba(185, 103, 255, 0.7);
+        transform: translateY(-3px) scale(1.02);
+        background-position: 100% 0;
         color: white;
+        animation-play-state: paused;
+        box-shadow: 0 0 42px rgba(185, 103, 255, 0.85), 0 0 60px rgba(79,172,254,0.6);
+    }}
+    .predict-btn-row div[data-testid="stButton"] button:active {{
+        transform: translateY(-1px) scale(0.99);
     }}
  
     /* ---------- RESULT CARD ---------- */
@@ -329,7 +352,7 @@ with col2:
 st.write("")
  
 # Reliable centering: 3-column trick, button lives in the middle one
-_, mid, _ = st.columns([1, 1.4, 1])
+_, mid, _ = st.columns([1, 1.7, 1])
 with mid:
     st.markdown('<div class="predict-btn-row">', unsafe_allow_html=True)
     predict_clicked = st.button("✨ Predict Survival", type="primary")
