@@ -173,9 +173,8 @@ st.markdown(
         100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
     }}
     div[data-testid="stButton"] {{
-        display: flex !important;
-        justify-content: center !important;
         width: 100% !important;
+        text-align: center !important;
     }}
     div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%) !important;
@@ -186,11 +185,12 @@ st.markdown(
         border: none !important;
         border-radius: 14px !important;
         padding: 0.85rem 0 !important;
+        display: block !important;
+        margin: 0 auto !important;
         width: 62% !important;
         min-width: 300px !important;
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
+        max-width: 480px !important;
+        text-align: center !important;
         white-space: nowrap !important;
         animation: pulseGlow 2.4s ease-in-out infinite !important;
         transition: transform 0.2s ease, background-position 0.4s ease !important;
