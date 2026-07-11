@@ -68,7 +68,7 @@ st.markdown(
         opacity: 0.9;
     }}
  
-    /* ---------- EQUAL-HEIGHT COLUMNS ---------- */
+    /* ---------- EQUAL-HEIGHT, GLOWING GLASS PANELS ---------- */
     div[data-testid="stHorizontalBlock"] {{
         align-items: stretch !important;
     }}
@@ -79,19 +79,16 @@ st.markdown(
     div[data-testid="column"] > div {{
         height: 100% !important;
     }}
-    div[data-testid="column"] div[data-testid="stVerticalBlock"] {{
-        height: 100% !important;
-    }}
  
-    /* ---------- GLASS CARD (visibly translucent) ---------- */
     div[data-testid="stVerticalBlockBorderWrapper"] {{
-        background: rgba(255, 255, 255, 0.16) !important;
-        backdrop-filter: blur(20px) saturate(140%) !important;
-        -webkit-backdrop-filter: blur(20px) saturate(140%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.30) !important;
+        background: linear-gradient(135deg, rgba(79,172,254,0.22), rgba(185,103,255,0.18)) !important;
+        backdrop-filter: blur(20px) saturate(150%) !important;
+        -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+        border: 1px solid rgba(255, 255, 255, 0.32) !important;
         border-radius: 20px !important;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255,255,255,0.25);
+        box-shadow: 0 0 34px rgba(185,103,255,0.28), inset 0 1px 0 rgba(255,255,255,0.25);
         padding: 1.3rem 1.3rem 1rem 1.3rem;
+        min-height: 640px;
         height: 100% !important;
         display: flex !important;
         flex-direction: column !important;
@@ -101,6 +98,12 @@ st.markdown(
         flex-grow: 1;
         display: flex;
         flex-direction: column;
+    }}
+ 
+    /* scatter the right (2nd) column's content evenly across the full panel height */
+    div[data-testid="stHorizontalBlock"] > div[data-testid="column"]:nth-of-type(2)
+        div[data-testid="stVerticalBlockBorderWrapper"] > div {{
+        justify-content: space-evenly !important;
     }}
  
     .section-heading {{
@@ -127,52 +130,39 @@ st.markdown(
         border-radius: 10px !important;
     }}
  
-    /* ---------- TOGGLE ROWS (health background) ---------- */
-    div[data-testid="stToggle"] label p {{
-        color: #f8f5ff !important;
-        font-weight: 500 !important;
-        font-size: 0.95rem !important;
-    }}
-    div[data-testid="stToggle"] {{
-        background: rgba(255,255,255,0.10);
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 12px;
-        padding: 0.6rem 0.9rem;
-        margin-bottom: 0.6rem;
-    }}
- 
-    /* ---------- SEX SEGMENTED CONTROL ---------- */
+    /* ---------- RADIO SELECTIONS (used for everything now — you said these are peak) ---------- */
     div[data-testid="stRadio"] label p {{
         color: #f8f5ff !important;
-        font-weight: 500 !important;
+        font-weight: 600 !important;
+        font-size: 0.98rem !important;
     }}
     div[data-testid="stRadio"] > div {{
-        background: rgba(255,255,255,0.10);
-        border: 1px solid rgba(255,255,255,0.2);
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.25);
         border-radius: 12px;
         padding: 8px 10px;
         justify-content: center;
     }}
- 
-    /* ---------- PREDICT BUTTON (normal width, centered) ---------- */
-    div[data-testid="stButton"] {{
-        display: flex;
-        justify-content: center;
+    div[data-testid="stRadio"] {{
+        margin-bottom: 0.9rem;
     }}
-    div[data-testid="stButton"] button {{
+ 
+    /* ---------- PREDICT BUTTON (reliably centered, normal size) ---------- */
+    .predict-btn-row div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
         color: white;
         font-weight: 700;
-        font-size: 1rem;
+        font-size: 1.05rem;
         border: none;
         border-radius: 14px;
-        padding: 0.6rem 2.4rem;
-        box-shadow: 0 0 22px rgba(185, 103, 255, 0.45);
+        padding: 0.75rem 0;
+        width: 100%;
+        box-shadow: 0 0 24px rgba(185, 103, 255, 0.5);
         transition: transform 0.15s ease, box-shadow 0.15s ease;
     }}
-    div[data-testid="stButton"] button:hover {{
+    .predict-btn-row div[data-testid="stButton"] button:hover {{
         transform: translateY(-2px);
-        box-shadow: 0 0 32px rgba(185, 103, 255, 0.65);
+        box-shadow: 0 0 34px rgba(185, 103, 255, 0.7);
         color: white;
     }}
  
@@ -259,6 +249,7 @@ st.markdown(
         }}
         div[data-testid="stVerticalBlockBorderWrapper"] {{
             height: auto !important;
+            min-height: unset;
             margin-bottom: 1rem;
         }}
     }}
@@ -329,19 +320,20 @@ with col1:
 with col2:
     with st.container(border=True):
         st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
-        anaemia = st.toggle("🩸 Anaemia", value=False)
-        diabetes = st.toggle("🍬 Diabetes", value=False)
-        high_blood_pressure = st.toggle("💢 High Blood Pressure", value=False)
-        smoking = st.toggle("🚬 Smoking", value=False)
+        anaemia = st.radio("🩸 Anaemia", ["No", "Yes"], horizontal=True)
+        diabetes = st.radio("🍬 Diabetes", ["No", "Yes"], horizontal=True)
+        high_blood_pressure = st.radio("💢 High Blood Pressure", ["No", "Yes"], horizontal=True)
+        smoking = st.radio("🚬 Smoking", ["No", "Yes"], horizontal=True)
         sex = st.radio("⚧ Sex", ["Female", "Male"], horizontal=True)
  
-        anaemia = "Yes" if anaemia else "No"
-        diabetes = "Yes" if diabetes else "No"
-        high_blood_pressure = "Yes" if high_blood_pressure else "No"
-        smoking = "Yes" if smoking else "No"
- 
 st.write("")
-predict_clicked = st.button("✨ Predict Survival", type="primary")
+ 
+# Reliable centering: 3-column trick, button lives in the middle one
+_, mid, _ = st.columns([1, 1.4, 1])
+with mid:
+    st.markdown('<div class="predict-btn-row">', unsafe_allow_html=True)
+    predict_clicked = st.button("✨ Predict Survival", type="primary")
+    st.markdown('</div>', unsafe_allow_html=True)
  
 # -----------------------------
 # PREDICTION
