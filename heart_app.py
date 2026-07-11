@@ -159,10 +159,11 @@ st.markdown(
         background: rgba(255,255,255,0.12) !important;
         border: 1px solid rgba(255,255,255,0.25) !important;
         border-radius: 12px !important;
-        padding: 8px 14px !important;
-        justify-content: center !important;
-        width: fit-content !important;
+        padding: 8px 18px !important;
+        justify-content: space-around !important;
+        width: 78% !important;
         margin: 0 auto !important;
+        gap: 1.2rem !important;
     }}
  
     /* ---------- PREDICT BUTTON (glowing, gradient, animated) ---------- */
@@ -171,16 +172,26 @@ st.markdown(
         50%  {{ box-shadow: 0 0 32px rgba(79,172,254,0.6), 0 0 55px rgba(185,103,255,0.6) !important; }}
         100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
     }}
+    div[data-testid="stButton"] {{
+        display: flex !important;
+        justify-content: center !important;
+        width: 100% !important;
+    }}
     div[data-testid="stButton"] button {{
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%) !important;
         background-size: 200% 100% !important;
         color: white !important;
         font-weight: 700 !important;
-        font-size: 1.08rem !important;
+        font-size: 1.1rem !important;
         border: none !important;
         border-radius: 14px !important;
-        padding: 0.8rem 0 !important;
-        width: 100% !important;
+        padding: 0.85rem 0 !important;
+        width: 62% !important;
+        min-width: 300px !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        white-space: nowrap !important;
         animation: pulseGlow 2.4s ease-in-out infinite !important;
         transition: transform 0.2s ease, background-position 0.4s ease !important;
     }}
@@ -362,9 +373,7 @@ with col2:
 st.write("")
  
 # Reliable centering: 3-column trick, button lives in the middle one
-_, mid, _ = st.columns([1, 1.7, 1])
-with mid:
-    predict_clicked = st.button("✨ Predict Survival", type="primary")
+predict_clicked = st.button("✨ Predict Survival", type="primary")
  
 # -----------------------------
 # PREDICTION
