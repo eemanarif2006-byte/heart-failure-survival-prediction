@@ -81,12 +81,12 @@ st.markdown(
     }}
  
     div[data-testid="stVerticalBlockBorderWrapper"] {{
-        background: linear-gradient(135deg, rgba(79,172,254,0.22), rgba(185,103,255,0.18)) !important;
+        background: linear-gradient(135deg, rgba(79,172,254,0.26), rgba(185,103,255,0.22)) !important;
         backdrop-filter: blur(20px) saturate(150%) !important;
         -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
-        border: 1px solid rgba(255, 255, 255, 0.32) !important;
+        border: 1px solid rgba(255, 255, 255, 0.35) !important;
         border-radius: 20px !important;
-        box-shadow: 0 0 34px rgba(185,103,255,0.28), inset 0 1px 0 rgba(255,255,255,0.25);
+        box-shadow: 0 0 45px rgba(185,103,255,0.4), 0 0 20px rgba(79,172,254,0.3), inset 0 1px 0 rgba(255,255,255,0.3) !important;
         padding: 1.3rem 1.3rem 1rem 1.3rem;
         min-height: 640px;
         height: 100% !important;
@@ -130,63 +130,73 @@ st.markdown(
         border-radius: 10px !important;
     }}
  
-    /* ---------- RADIO SELECTIONS (used for everything now — you said these are peak) ---------- */
+    /* ---------- RADIO SELECTIONS: fully centered block ---------- */
+    div.element-container:has(div[data-testid="stRadio"]) {{
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
+    }}
     div[data-testid="stRadio"] {{
-        margin-bottom: 0.9rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100%;
+        margin-bottom: 0.9rem !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        width: 100% !important;
     }}
     div[data-testid="stRadio"] > label {{
-        width: 100%;
-        text-align: center;
+        width: 100% !important;
+        text-align: center !important;
     }}
     div[data-testid="stRadio"] label p {{
         color: #f8f5ff !important;
         font-weight: 600 !important;
         font-size: 0.98rem !important;
         text-align: center !important;
-        width: 100%;
+        width: 100% !important;
     }}
     div[data-testid="stRadio"] > div {{
-        background: rgba(255,255,255,0.12);
-        border: 1px solid rgba(255,255,255,0.25);
-        border-radius: 12px;
-        padding: 8px 14px;
-        justify-content: center;
-        width: fit-content;
-        margin: 0 auto;
+        background: rgba(255,255,255,0.12) !important;
+        border: 1px solid rgba(255,255,255,0.25) !important;
+        border-radius: 12px !important;
+        padding: 8px 14px !important;
+        justify-content: center !important;
+        width: fit-content !important;
+        margin: 0 auto !important;
     }}
  
-    /* ---------- PREDICT BUTTON (reliably centered, normal size, glowing) ---------- */
+    /* ---------- PREDICT BUTTON (glowing, gradient, animated) ---------- */
     @keyframes pulseGlow {{
-        0%   {{ box-shadow: 0 0 18px rgba(255,95,126,0.45), 0 0 34px rgba(185,103,255,0.4); }}
-        50%  {{ box-shadow: 0 0 30px rgba(79,172,254,0.55), 0 0 50px rgba(185,103,255,0.55); }}
-        100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.45), 0 0 34px rgba(185,103,255,0.4); }}
+        0%   {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
+        50%  {{ box-shadow: 0 0 32px rgba(79,172,254,0.6), 0 0 55px rgba(185,103,255,0.6) !important; }}
+        100% {{ box-shadow: 0 0 18px rgba(255,95,126,0.5), 0 0 36px rgba(185,103,255,0.45) !important; }}
     }}
-    .predict-btn-row div[data-testid="stButton"] button {{
-        background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
-        background-size: 200% 100%;
-        color: white;
-        font-weight: 700;
-        font-size: 1.08rem;
-        border: none;
-        border-radius: 14px;
-        padding: 0.8rem 0;
-        width: 100%;
-        animation: pulseGlow 2.4s ease-in-out infinite;
-        transition: transform 0.2s ease, background-position 0.4s ease;
+    div[data-testid="stButton"] button {{
+        background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%) !important;
+        background-size: 200% 100% !important;
+        color: white !important;
+        font-weight: 700 !important;
+        font-size: 1.08rem !important;
+        border: none !important;
+        border-radius: 14px !important;
+        padding: 0.8rem 0 !important;
+        width: 100% !important;
+        animation: pulseGlow 2.4s ease-in-out infinite !important;
+        transition: transform 0.2s ease, background-position 0.4s ease !important;
     }}
-    .predict-btn-row div[data-testid="stButton"] button:hover {{
-        transform: translateY(-3px) scale(1.02);
-        background-position: 100% 0;
-        color: white;
-        animation-play-state: paused;
-        box-shadow: 0 0 42px rgba(185, 103, 255, 0.85), 0 0 60px rgba(79,172,254,0.6);
+    div[data-testid="stButton"] button p {{
+        color: white !important;
+        font-weight: 700 !important;
     }}
-    .predict-btn-row div[data-testid="stButton"] button:active {{
-        transform: translateY(-1px) scale(0.99);
+    div[data-testid="stButton"] button:hover {{
+        transform: translateY(-3px) scale(1.02) !important;
+        background-position: 100% 0 !important;
+        color: white !important;
+        animation-play-state: paused !important;
+        box-shadow: 0 0 46px rgba(185, 103, 255, 0.9), 0 0 65px rgba(79,172,254,0.65) !important;
+    }}
+    div[data-testid="stButton"] button:active {{
+        transform: translateY(-1px) scale(0.99) !important;
     }}
  
     /* ---------- RESULT CARD ---------- */
@@ -354,9 +364,7 @@ st.write("")
 # Reliable centering: 3-column trick, button lives in the middle one
 _, mid, _ = st.columns([1, 1.7, 1])
 with mid:
-    st.markdown('<div class="predict-btn-row">', unsafe_allow_html=True)
     predict_clicked = st.button("✨ Predict Survival", type="primary")
-    st.markdown('</div>', unsafe_allow_html=True)
  
 # -----------------------------
 # PREDICTION
