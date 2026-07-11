@@ -8,7 +8,7 @@ import pickle
 st.set_page_config(
     page_title="Heart Failure Survival Predictor",
     page_icon="❤️",
-    layout="centered"   # narrower, content stays centered on wide screens
+    layout="centered"
 )
  
 BACKGROUND_URL = "https://i.pinimg.com/1200x/30/da/56/30da565b9ba54887ef1f73ea110c068e.jpg"
@@ -40,9 +40,8 @@ st.markdown(
     footer {{visibility: hidden;}}
     header {{background: transparent !important;}}
  
-    /* keep content narrow + centered */
     .block-container {{
-        max-width: 760px;
+        max-width: 740px;
         padding-top: 1.5rem;
         padding-bottom: 3rem;
     }}
@@ -50,27 +49,26 @@ st.markdown(
     /* ---------- TITLE ---------- */
     .app-title {{
         font-family: 'Space Grotesk', sans-serif;
-        font-size: 2.3rem;
+        font-size: 2.2rem;
         font-weight: 700;
         text-align: center;
         background: linear-gradient(90deg, #ff5f7e 0%, #b967ff 50%, #4facfe 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         margin-bottom: 0;
-        padding-top: 0.3rem;
-        text-shadow: 0 0 25px rgba(185,103,255,0.35);
+        text-shadow: 0 0 25px rgba(185,103,255,0.3);
     }}
     .app-subtitle {{
         text-align: center;
         color: #e8e2ff;
-        font-size: 0.98rem;
+        font-size: 0.95rem;
         font-weight: 300;
         margin-top: 0.3rem;
-        margin-bottom: 1.6rem;
+        margin-bottom: 1.7rem;
         opacity: 0.9;
     }}
  
-    /* ---------- GLASS CARD (native Streamlit bordered container) ---------- */
+    /* ---------- GLASS CARD ---------- */
     div[data-testid="stVerticalBlockBorderWrapper"] {{
         background: rgba(255, 255, 255, 0.07);
         backdrop-filter: blur(18px);
@@ -78,25 +76,25 @@ st.markdown(
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
         border-radius: 20px !important;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
-        padding: 0.4rem 0.2rem;
+        padding: 1.3rem 1.3rem 0.6rem 1.3rem;
     }}
  
     .section-heading {{
         font-family: 'Space Grotesk', sans-serif;
         font-weight: 600;
-        font-size: 1.1rem;
+        font-size: 1.08rem;
         color: #ffb3c6;
-        margin-bottom: 0.9rem;
+        margin-bottom: 1rem;
         letter-spacing: 0.3px;
         text-align: center;
     }}
     .section-heading.blue {{ color: #9fd3ff; }}
  
     /* ---------- NUMBER INPUTS ---------- */
-    div[data-testid="stNumberInput"] label {{
+    div[data-testid="stNumberInput"] label p {{
         color: #f2eefc !important;
         font-weight: 500 !important;
-        font-size: 0.9rem !important;
+        font-size: 0.88rem !important;
     }}
     div[data-testid="stNumberInput"] input {{
         background: rgba(255,255,255,0.12) !important;
@@ -105,39 +103,30 @@ st.markdown(
         border-radius: 10px !important;
     }}
  
-    /* ---------- TOGGLE SWITCHES (health background) ---------- */
-    div[data-testid="stToggle"] label p {{
+    /* ---------- PILLS (health background + sex) ---------- */
+    div[data-testid="stPills"] label p {{
         color: #f2eefc !important;
         font-weight: 500 !important;
-        font-size: 0.95rem !important;
+        font-size: 0.85rem !important;
+        margin-bottom: 0.5rem !important;
     }}
-    div[data-testid="stToggle"] {{
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.14);
-        border-radius: 12px;
-        padding: 0.55rem 0.9rem;
-        margin-bottom: 0.55rem;
-        transition: box-shadow 0.2s ease, border-color 0.2s ease;
+    div[data-testid="stPills"] button {{
+        background: rgba(255,255,255,0.08) !important;
+        border: 1px solid rgba(255,255,255,0.22) !important;
+        color: #f2eefc !important;
+        border-radius: 999px !important;
+        font-weight: 500 !important;
+        transition: all 0.2s ease !important;
     }}
-    div[data-testid="stToggle"]:has(input:checked) {{
-        border-color: rgba(255,95,126,0.55);
-        box-shadow: 0 0 16px rgba(255,95,126,0.35);
+    div[data-testid="stPills"] button:hover {{
+        border-color: rgba(185,103,255,0.6) !important;
+        box-shadow: 0 0 14px rgba(185,103,255,0.35) !important;
     }}
-    div[data-testid="stToggle"] button[aria-checked="true"] {{
+    div[data-testid="stPills"] button[kind="primary"] {{
         background: linear-gradient(90deg, #ff5f7e, #b967ff) !important;
-    }}
- 
-    /* ---------- SEX SEGMENTED CONTROL ---------- */
-    div[data-testid="stRadio"] label p {{
-        color: #f2eefc !important;
-        font-weight: 500 !important;
-    }}
-    div[data-testid="stRadio"] > div {{
-        background: rgba(255,255,255,0.06);
-        border: 1px solid rgba(255,255,255,0.14);
-        border-radius: 12px;
-        padding: 8px 10px;
-        justify-content: center;
+        border: none !important;
+        color: white !important;
+        box-shadow: 0 0 16px rgba(255,95,126,0.5) !important;
     }}
  
     /* ---------- PREDICT BUTTON ---------- */
@@ -232,11 +221,11 @@ st.markdown(
  
     /* ---------- MOBILE ---------- */
     @media (max-width: 600px) {{
-        .app-title {{ font-size: 1.7rem; }}
-        .app-subtitle {{ font-size: 0.85rem; }}
-        .result-title {{ font-size: 1.4rem; }}
+        .app-title {{ font-size: 1.6rem; }}
+        .app-subtitle {{ font-size: 0.82rem; }}
+        .result-title {{ font-size: 1.35rem; }}
         .block-container {{ padding-left: 0.8rem; padding-right: 0.8rem; }}
-        div[data-testid="stVerticalBlockBorderWrapper"] {{ padding: 0.2rem 0.1rem; }}
+        div[data-testid="stVerticalBlockBorderWrapper"] {{ padding: 1rem 0.9rem 0.5rem 0.9rem; }}
     }}
     </style>
     """,
@@ -280,8 +269,7 @@ st.markdown(
 col1, col2 = st.columns(2, gap="medium")
  
 with col1:
-    card1 = st.container(border=True)
-    with card1:
+    with st.container(border=True):
         st.markdown('<div class="section-heading">🩺 Clinical Measurements</div>', unsafe_allow_html=True)
         age = st.number_input("Age", min_value=1, max_value=120, value=60)
         creatinine_phosphokinase = st.number_input(
@@ -304,19 +292,30 @@ with col1:
         )
  
 with col2:
-    card2 = st.container(border=True)
-    with card2:
+    with st.container(border=True):
         st.markdown('<div class="section-heading blue">📋 Health Background</div>', unsafe_allow_html=True)
-        anaemia_on = st.toggle("🩸 Anaemia", value=False)
-        diabetes_on = st.toggle("🍬 Diabetes", value=False)
-        hbp_on = st.toggle("💢 High Blood Pressure", value=False)
-        smoking_on = st.toggle("🚬 Smoking", value=False)
-        sex = st.radio("⚧ Sex", ["Female", "Male"], horizontal=True)
  
-        anaemia = "Yes" if anaemia_on else "No"
-        diabetes = "Yes" if diabetes_on else "No"
-        high_blood_pressure = "Yes" if hbp_on else "No"
-        smoking = "Yes" if smoking_on else "No"
+        conditions = st.pills(
+            "Existing conditions (tap to select)",
+            ["🩸 Anaemia", "🍬 Diabetes", "💢 High BP", "🚬 Smoking"],
+            selection_mode="multi",
+        )
+        conditions = conditions or []
+ 
+        st.markdown("<div style='margin-top: 0.6rem;'></div>", unsafe_allow_html=True)
+ 
+        sex_choice = st.pills(
+            "Sex",
+            ["♀ Female", "♂ Male"],
+            selection_mode="single",
+            default="♀ Female",
+        )
+ 
+        anaemia = "Yes" if "🩸 Anaemia" in conditions else "No"
+        diabetes = "Yes" if "🍬 Diabetes" in conditions else "No"
+        high_blood_pressure = "Yes" if "💢 High BP" in conditions else "No"
+        smoking = "Yes" if "🚬 Smoking" in conditions else "No"
+        sex = "Male" if sex_choice == "♂ Male" else "Female"
  
 st.write("")
 predict_clicked = st.button("✨ Predict Survival", type="primary", use_container_width=True)
